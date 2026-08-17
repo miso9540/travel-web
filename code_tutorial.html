@@ -1,0 +1,854 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      คู่มือสอนเขียนโค้ดและอธิบายฟังก์ชันอย่างละเอียด - TravelWeb2500
+    </title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&family=Sarabun:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg-main: #0f172a;
+        --bg-card: #1e293b;
+        --bg-code: #090d16;
+        --accent-blue: #38bdf8;
+        --accent-indigo: #6366f1;
+        --accent-purple: #c084fc;
+        --accent-emerald: #34d399;
+        --accent-amber: #fbbf24;
+        --accent-rose: #fb7185;
+        --text-head: #f8fafc;
+        --text-body: #cbd5e1;
+        --text-muted: #94a3b8;
+        --border-color: #334155;
+        --radius-lg: 16px;
+        --radius-md: 12px;
+        --shadow-glow: 0 10px 30px -10px rgba(99, 102, 241, 0.3);
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        background-color: var(--bg-main);
+        color: var(--text-body);
+        font-family:
+          "Outfit",
+          "Sarabun",
+          -apple-system,
+          sans-serif;
+        line-height: 1.7;
+        padding-bottom: 80px;
+      }
+
+      /* ===== HERO HEADER ===== */
+      .hero-header {
+        background: linear-gradient(
+          135deg,
+          #0f172a 0%,
+          #1e1b4b 50%,
+          #0f172a 100%
+        );
+        border-bottom: 1px solid var(--border-color);
+        padding: 60px 20px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-header::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60%;
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--accent-indigo),
+          transparent
+        );
+      }
+
+      .badge-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 16px;
+        border-radius: 30px;
+        background: rgba(99, 102, 241, 0.15);
+        border: 1px solid rgba(99, 102, 241, 0.3);
+        color: var(--accent-blue);
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 16px;
+      }
+
+      .hero-header h1 {
+        font-size: 2.5rem;
+        color: var(--text-head);
+        font-weight: 700;
+        margin-bottom: 12px;
+        background: linear-gradient(
+          135deg,
+          #ffffff 30%,
+          #a5f3fc 70%,
+          #c084fc 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .hero-header p {
+        font-size: 1.1rem;
+        color: var(--text-muted);
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      /* ===== LAYOUT & NAVIGATION ===== */
+      .container {
+        max-width: 1200px;
+        margin: 40px auto 0;
+        padding: 0 20px;
+      }
+
+      .nav-tabs {
+        display: flex;
+        gap: 10px;
+        background: var(--bg-card);
+        padding: 8px;
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--border-color);
+        margin-bottom: 40px;
+        overflow-x: auto;
+        position: sticky;
+        top: 20px;
+        z-index: 100;
+        backdrop-filter: blur(12px);
+      }
+
+      .tab-btn {
+        background: transparent;
+        border: none;
+        color: var(--text-muted);
+        padding: 12px 20px;
+        border-radius: var(--radius-md);
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: all 0.25s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .tab-btn:hover {
+        color: var(--text-head);
+        background: rgba(255, 255, 255, 0.05);
+      }
+
+      .tab-btn.active {
+        background: linear-gradient(135deg, var(--accent-indigo), #4f46e5);
+        color: #ffffff;
+        box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+      }
+
+      /* ===== SECTION CARDS ===== */
+      .doc-section {
+        background: var(--bg-card);
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--border-color);
+        padding: 35px;
+        margin-bottom: 40px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      }
+
+      .section-title {
+        font-size: 1.8rem;
+        color: var(--text-head);
+        font-weight: 700;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 15px;
+      }
+
+      .section-desc {
+        color: var(--text-muted);
+        margin-bottom: 25px;
+        font-size: 1rem;
+      }
+
+      /* ===== FUNCTION BOX ===== */
+      .func-box {
+        background: rgba(15, 23, 42, 0.6);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-md);
+        padding: 25px;
+        margin-bottom: 30px;
+      }
+
+      .func-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 15px;
+      }
+
+      .func-name {
+        font-family: "Fira Code", monospace;
+        font-size: 1.25rem;
+        color: var(--accent-blue);
+        font-weight: 600;
+        background: rgba(56, 189, 248, 0.1);
+        padding: 4px 12px;
+        border-radius: 8px;
+        border: 1px solid rgba(56, 189, 248, 0.2);
+      }
+
+      .func-file-tag {
+        font-size: 13px;
+        color: var(--accent-purple);
+        background: rgba(192, 132, 252, 0.1);
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-weight: 500;
+      }
+
+      .func-purpose {
+        color: var(--text-body);
+        margin-bottom: 15px;
+        font-size: 15px;
+      }
+
+      /* ===== CODE BLOCK ===== */
+      .code-wrapper {
+        position: relative;
+        margin: 15px 0 20px;
+      }
+
+      .code-header {
+        background: #1e293b;
+        padding: 8px 16px;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        font-family: "Fira Code", monospace;
+        font-size: 13px;
+        color: var(--text-muted);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border: 1px solid var(--border-color);
+        border-bottom: none;
+      }
+
+      pre {
+        background: var(--bg-code);
+        padding: 20px;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+        border: 1px solid var(--border-color);
+        overflow-x: auto;
+        font-family: "Fira Code", monospace;
+        font-size: 14px;
+        line-height: 1.6;
+        color: #e2e8f0;
+      }
+
+      /* SYNTAX HIGHLIGHTING */
+      .kw {
+        color: #f472b6;
+        font-weight: 600;
+      } /* Keyword: let, const, function */
+      .fn {
+        color: #60a5fa;
+        font-weight: 600;
+      } /* Function name */
+      .str {
+        color: #34d399;
+      } /* String */
+      .num {
+        color: #fbbf24;
+      } /* Number */
+      .cmt {
+        color: #64748b;
+        font-style: italic;
+      } /* Comment */
+      .op {
+        color: #c084fc;
+      } /* Operator */
+      .prop {
+        color: #38bdf8;
+      } /* Property */
+
+      /* ===== LINE-BY-LINE EXPLANATION ===== */
+      .explanation-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+        font-size: 14px;
+      }
+
+      .explanation-table th,
+      .explanation-table td {
+        padding: 12px 16px;
+        text-align: left;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .explanation-table th {
+        background: rgba(30, 41, 59, 0.8);
+        color: var(--accent-blue);
+        font-weight: 600;
+      }
+
+      .line-no {
+        font-family: "Fira Code", monospace;
+        color: var(--accent-purple);
+        font-weight: bold;
+        width: 80px;
+      }
+
+      .concept-tag {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 600;
+        background: rgba(52, 211, 153, 0.15);
+        color: var(--accent-emerald);
+        margin-right: 6px;
+      }
+
+      /* FOOTER */
+      footer {
+        text-align: center;
+        color: var(--text-muted);
+        font-size: 14px;
+        margin-top: 60px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- HERO HEADER -->
+    <header class="hero-header">
+      <div class="badge-pill">📘 Complete Code Documentation & Tutorial</div>
+      <h1>คู่มือสอนเขียนโค้ดและคำอธิบายฟังก์ชันอย่างละเอียด</h1>
+      <p>
+        เรียนรู้สถาปัตยกรรม วิธีเขียนโค้ด และเจาะลึกฟังก์ชันในโปรเจกต์
+        <strong>TravelWeb2500</strong> บรรทัดต่อบรรทัด พร้อมเทคนิค JavaScript
+        ES6+
+      </p>
+    </header>
+
+    <div class="container">
+      <!-- NAVIGATION TABS -->
+      <nav class="nav-tabs">
+        <button
+          class="tab-btn active"
+          onclick="scrollToSection('sec-overview')"
+        >
+          📌 1. ภาพรวมสถาปัตยกรรม
+        </button>
+        <button class="tab-btn" onclick="scrollToSection('sec-filter')">
+          🔍 2. ระบบคัดกรอง & ค้นหา
+        </button>
+        <button class="tab-btn" onclick="scrollToSection('sec-preview')">
+          🖼️ 3. Hover Preview & Lightbox
+        </button>
+        <button class="tab-btn" onclick="scrollToSection('sec-booking')">
+          💳 4. การจองทริป & คำนวณราคา
+        </button>
+        <button class="tab-btn" onclick="scrollToSection('sec-maps')">
+          🗺️ 5. Google Maps Geolocation
+        </button>
+        <button class="tab-btn" onclick="scrollToSection('sec-storage')">
+          📜 6. LocalStorage History
+        </button>
+      </nav>
+
+      <!-- SECTION 1: OVERVIEW -->
+      <section id="sec-overview" class="doc-section">
+        <h2 class="section-title">📌 1. ภาพรวมสถาปัตยกรรมและการจัดวางไฟล์</h2>
+        <p class="section-desc">
+          โปรเจกต์
+          <strong>TravelWeb2500</strong> พัฒนาขึ้นมาด้วยเทคโนโลยีเว็บพื้นฐาน
+          ได้แก่ HTML5, Vanilla JavaScript (ES6+) และ CSS3
+          โดยไม่มีการพึ่งพาไลบรารีภายนอก เพื่อประสิทธิภาพการโหลดที่เร็วที่สุด
+        </p>
+
+        <table class="explanation-table" style="margin-bottom: 20px">
+          <thead>
+            <tr>
+              <th>ชื่อไฟล์ / ส่วนประกอบ</th>
+              <th>หน้าที่และความสำคัญ</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <strong style="color: var(--accent-blue)">JavaS-1.js</strong>
+              </td>
+              <td>
+                ไฟล์สคริปต์หลักสำหรับหน้าแรก (<code
+                  style="color: var(--accent-purple)"
+                  >Web.html</code
+                >) ทำหน้าที่คัดกรองการ์ดตามหมวดหมู่, ค้นหาแบบ Real-time, ระบบ
+                Popup Preview ลอยตามเมาส์ และระบบจองแพ็กเกจ
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <strong style="color: var(--accent-blue)">CSS-1.css</strong>
+              </td>
+              <td>
+                ศูนย์รวมสไตล์ชีตหลัก ควบคุมดีไซน์ UI ทั้งหมด ทั้งการจัดวาง
+                Grid/Flexbox, การเปิด-ปิด Modal, Lightbox และธีมสี
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <strong style="color: var(--accent-blue)"
+                  >หน้าย่อย (.html ทั้ง 15 หน้า)</strong
+                >
+              </td>
+              <td>
+                เช่น
+                <code style="color: var(--accent-emerald)">เขาใหญ่-1.html</code
+                >,
+                <code style="color: var(--accent-emerald)">เขาสก-1.html</code>
+                มีสคริปต์สลับภาพ Thumbnail, Lightbox แบบขยายเต็มหน้าจอ
+                และระบบคำนวณเส้นทาง Google Maps แบบเรียลไทม์
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- SECTION 2: FILTER & SEARCH -->
+      <section id="sec-filter" class="doc-section">
+        <h2 class="section-title">
+          🔍 2. ระบบคัดกรองหมวดหมู่และค้นหาเรียลไทม์ (Filter & Search)
+        </h2>
+        <p class="section-desc">
+          ทำหน้าที่กรองการ์ดสถานที่ท่องเที่ยวโดยอัตโนมัติเมื่อผู้ใช้คลิกเลือกปุ่มหมวดหมู่
+          หรือพิมพ์คำค้นหาในช่อง Search Box
+        </p>
+
+        <!-- FUNC 1 -->
+        <div class="func-box">
+          <div class="func-header">
+            <span class="func-name">function filterCards()</span>
+            <span class="func-file-tag">JavaS-1.js (Line 10-35)</span>
+          </div>
+          <p class="func-purpose">
+            <strong>วัตถุประสงค์:</strong> ตรวจสอบเงื่อนไข 2 ทางพร้อมกัน
+            (หมวดหมู่ที่เลือก + ข้อความที่พิมพ์ค้นหา)
+            และซ่อน/แสดงการ์ดท่องเที่ยวแบบเรียลไทม์
+          </p>
+
+          <div class="code-wrapper">
+            <div class="code-header"><span>JavaScript Source Code</span></div>
+            <pre><code><span class="kw">function</span> <span class="fn">filterCards</span>() {
+  <span class="kw">const</span> searchText <span class="op">=</span> searchInput <span class="op">?</span> searchInput.<span class="prop">value</span>.<span class="fn">toLowerCase</span>().<span class="fn">trim</span>() <span class="op">:</span> <span class="str">""</span>;
+  <span class="kw">let</span> visibleCount <span class="op">=</span> <span class="num">0</span>;
+
+  cards.<span class="fn">forEach</span>(card <span class="op">=></span> {
+    <span class="kw">const</span> category <span class="op">=</span> card.<span class="prop">dataset</span>.<span class="prop">category</span> <span class="op">||</span> <span class="str">""</span>;
+    <span class="kw">const</span> title <span class="op">=</span> card.<span class="fn">querySelector</span>(<span class="str">"h3"</span>) <span class="op">?</span> card.<span class="fn">querySelector</span>(<span class="str">"h3"</span>).<span class="prop">textContent</span>.<span class="fn">toLowerCase</span>() <span class="op">:</span> <span class="str">""</span>;
+    <span class="kw">const</span> location <span class="op">=</span> card.<span class="fn">querySelector</span>(<span class="str">".location"</span>) <span class="op">?</span> card.<span class="fn">querySelector</span>(<span class="str">".location"</span>).<span class="prop">textContent</span>.<span class="fn">toLowerCase</span>() <span class="op">:</span> <span class="str">""</span>;
+
+    <span class="kw">const</span> matchesCategory <span class="op">=</span> (activeCategory <span class="op">===</span> <span class="str">"ทั้งหมด"</span> <span class="op">||</span> category <span class="op">===</span> activeCategory);
+    <span class="kw">const</span> matchesSearch <span class="op">=</span> <span class="op">!</span>searchText <span class="op">||</span> title.<span class="fn">includes</span>(searchText) <span class="op">||</span> location.<span class="fn">includes</span>(searchText);
+
+    <span class="kw">if</span> (matchesCategory <span class="op">&&</span> matchesSearch) {
+      card.<span class="prop">style</span>.<span class="prop">display</span> <span class="op">=</span> <span class="str">"block"</span>;
+      visibleCount<span class="op">++</span>;
+    } <span class="kw">else</span> {
+      card.<span class="prop">style</span>.<span class="prop">display</span> <span class="op">=</span> <span class="str">"none"</span>;
+    }
+  });
+
+  <span class="kw">if</span> (noResults) {
+    noResults.<span class="prop">style</span>.<span class="prop">display</span> <span class="op">=</span> (visibleCount <span class="op">===</span> <span class="num">0</span>) <span class="op">?</span> <span class="str">"block"</span> <span class="op">:</span> <span class="str">"none"</span>;
+  }
+}</code></pre>
+          </div>
+
+          <h4 style="color: var(--accent-blue); margin-bottom: 10px">
+            🔬 คำอธิบายการทำงานบรรทัดต่อบรรทัด:
+          </h4>
+          <table class="explanation-table">
+            <thead>
+              <tr>
+                <th class="line-no">บรรทัด</th>
+                <th>คำอธิบายโค้ดและเทคนิคที่ใช้</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="line-no">L2</td>
+                <td>
+                  ดึงค่าจากช่องค้นหา แปลงเป็นตัวพิมพ์เล็กด้วย
+                  <code style="color: var(--accent-purple)"
+                    >.toLowerCase()</code
+                  >
+                  และตัดช่องว่างส่วนเกินด้วย
+                  <code style="color: var(--accent-purple)">.trim()</code>
+                  เพื่อให้การค้นหาไม่เคสเซนซิทีฟ
+                </td>
+              </tr>
+              <tr>
+                <td class="line-no">L5-L9</td>
+                <td>
+                  วนลูปอ่านการ์ดทุกใบ แล้วดึงค่า
+                  <span class="concept-tag">Dataset</span> จาก HTML Attribute
+                  <code style="color: var(--accent-emerald)"
+                    >data-category</code
+                  >
+                  รวมถึงชื่อสถานที่และจังหวัดจากภายใน HTML
+                </td>
+              </tr>
+              <tr>
+                <td class="line-no">L11-L12</td>
+                <td>
+                  สร้างตัวแปรบูลีนเช็ค 2 เงื่อนไข: การ์ดตรงหมวดหมู่ไหม?
+                  และชื่อสถานที่หรือจังหวัดตรงกับคำค้นหาไหม? ผ่านทาง
+                  <code style="color: var(--accent-purple)">.includes()</code>
+                </td>
+              </tr>
+              <tr>
+                <td class="line-no">L14-L19</td>
+                <td>
+                  หากเข้าทั้ง 2 เงื่อนไข สั่ง
+                  <code style="color: var(--accent-purple)"
+                    >card.style.display = "block"</code
+                  >
+                  เพื่อแสดงการ์ด หากไม่ตรงให้สั่ง
+                  <code style="color: var(--accent-purple)">"none"</code>
+                  เพื่อซ่อนการ์ด
+                </td>
+              </tr>
+              <tr>
+                <td class="line-no">L22-L24</td>
+                <td>
+                  หากนับ
+                  <code style="color: var(--accent-purple)"
+                    >visibleCount === 0</code
+                  >
+                  (ไม่พบการ์ดเลย) จะเปิดกล่องข้อความแจ้งเตือน
+                  "ไม่พบข้อมูลการค้นหา" ขึ้นมาแสดง
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- SECTION 3: PREVIEW & LIGHTBOX -->
+      <section id="sec-preview" class="doc-section">
+        <h2 class="section-title">
+          🖼️ 3. ระบบ Preview ลอยตามเมาส์ และ Lightbox Gallery
+        </h2>
+        <p class="section-desc">
+          การสร้างประสบการณ์ผู้ใช้ที่ดี (User Experience)
+          ด้วยการแสดงกล่องตัวอย่างแบบลอยตามพิกัดเมาส์
+          และหน้าต่างขยายรูปภาพขนาดเต็ม
+        </p>
+
+        <!-- FUNC 2 -->
+        <div class="func-box">
+          <div class="func-header">
+            <span class="func-name">Hover Preview Tracking</span>
+            <span class="func-file-tag">JavaS-1.js (Line 61-86)</span>
+          </div>
+          <p class="func-purpose">
+            <strong>วัตถุประสงค์:</strong> ดักจับ Event พิกัดเมาส์ (<code
+              style="color: var(--accent-blue)"
+              >e.pageX</code
+            >, <code style="color: var(--accent-blue)">e.pageY</code>)
+            แล้วย้ายตำแหน่งป๊อบอัพลอยให้เคลื่อนที่ตามเมาส์ขณะจี้การ์ด
+          </p>
+
+          <div class="code-wrapper">
+            <div class="code-header">
+              <span>JavaScript Event Listeners</span>
+            </div>
+            <pre><code>cards.<span class="fn">forEach</span>(card <span class="op">=></span> {
+  card.<span class="fn">addEventListener</span>(<span class="str">"mouseenter"</span>, <span class="kw">function</span> () {
+    <span class="cmt">// ดึงเฉพาะ URL รูปภาพจากการ์ดใบที่เลื่อนเมาส์ผ่าน</span>
+    <span class="kw">const</span> img <span class="op">=</span> card.<span class="fn">querySelector</span>(<span class="str">"img"</span>) <span class="op">?</span> card.<span class="fn">querySelector</span>(<span class="str">"img"</span>).<span class="prop">src</span> <span class="op">:</span> <span class="str">""</span>;
+    <span class="kw">if</span> (previewImg) previewImg.<span class="prop">src</span> <span class="op">=</span> img;
+    popup.<span class="prop">style</span>.<span class="prop">display</span> <span class="op">=</span> <span class="str">"block"</span>;
+  });
+
+  card.<span class="fn">addEventListener</span>(<span class="str">"mousemove"</span>, <span class="kw">function</span> (e) {
+    popup.<span class="prop">style</span>.<span class="prop">top</span> <span class="op">=</span> (e.<span class="prop">pageY</span> <span class="op">+</span> <span class="num">20</span>) <span class="op">+</span> <span class="str">"px"</span>;
+    popup.<span class="prop">style</span>.<span class="prop">left</span> <span class="op">=</span> (e.<span class="prop">pageX</span> <span class="op">+</span> <span class="num">20</span>) <span class="op">+</span> <span class="str">"px"</span>;
+  });
+
+  card.<span class="fn">addEventListener</span>(<span class="str">"mouseleave"</span>, <span class="kw">function</span> () {
+    popup.<span class="prop">style</span>.<span class="prop">display</span> <span class="op">=</span> <span class="str">"none"</span>;
+  });
+});</code></pre>
+          </div>
+
+          <h4 style="color: var(--accent-blue); margin-bottom: 10px">
+            🔬 คำอธิบายการทำงาน:
+          </h4>
+          <table class="explanation-table">
+            <thead>
+              <tr>
+                <th class="line-no">Event Name</th>
+                <th>คำอธิบายการทำงาน</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="line-no">mouseenter</td>
+                <td>
+                  เมื่อเมาส์เริ่มเลื่อนเข้ามาในการ์ด จะดึงเฉพาะ URL
+                  รูปภาพจากการ์ดมาใส่ใน
+                  <code style="color: var(--accent-emerald)"
+                    >previewImg.src</code
+                  >
+                  แล้วเปิด
+                  <code style="color: var(--accent-emerald)"
+                    >display: block</code
+                  >
+                  เพื่อแสดงรูปภาพพรีวิวอย่างเดียว
+                </td>
+              </tr>
+              <tr>
+                <td class="line-no">mousemove</td>
+                <td>
+                  ขณะเมาส์ขยับภายในพื้นที่การ์ด จะคำนวณตำแหน่งเมาส์ในหน้าเว็บ
+                  (<code style="color: var(--accent-purple)">e.pageX</code>,
+                  <code style="color: var(--accent-purple)">e.pageY</code>)
+                  แล้วเว้นระยะ +20px ไม่ให้บังหัวเมาส์
+                </td>
+              </tr>
+              <tr>
+                <td class="line-no">mouseleave</td>
+                <td>
+                  เมื่อเมาส์ออกจากพื้นที่การ์ด จะสั่งซ่อนรูปป๊อบอัพพรีวิวด้วย
+                  <code style="color: var(--accent-rose)">display: none</code>
+                  ทันที
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- FUNC 3: THUMBNAIL & LIGHTBOX -->
+        <div class="func-box">
+          <div class="func-header">
+            <span class="func-name"
+              >function changeImage(element, src, index)</span
+            >
+            <span class="func-file-tag">หน้าย่อย เช่น เขาใหญ่-1.html</span>
+          </div>
+          <p class="func-purpose">
+            <strong>วัตถุประสงค์:</strong>
+            เปลี่ยนภาพใหญ่ในหน้าเนื้อหาย่อยเมื่อผู้ใช้คลิกเลือกภาพ Thumbnail
+            พร้อมอัปเดตตัวเลขจำนวนภาพ (1 / 4)
+          </p>
+
+          <div class="code-wrapper">
+            <div class="code-header"><span>JavaScript Source Code</span></div>
+            <pre><code><span class="kw">function</span> <span class="fn">changeImage</span>(element, src, index) {
+  document.<span class="fn">getElementById</span>(<span class="str">"mainImage"</span>).<span class="prop">src</span> <span class="op">=</span> src;
+  document.<span class="fn">querySelectorAll</span>(<span class="str">".thumbnail"</span>).<span class="fn">forEach</span>(el <span class="op">=></span> el.<span class="prop">classList</span>.<span class="fn">remove</span>(<span class="str">"active"</span>));
+  element.<span class="prop">classList</span>.<span class="prop">add</span>(<span class="str">"active"</span>);
+  currentImgIndex <span class="op">=</span> index;
+  document.<span class="fn">getElementById</span>(<span class="str">"imageCount"</span>).<span class="prop">innerText</span> <span class="op">=</span> (index <span class="op">+</span> <span class="num">1</span>) <span class="op">+</span> <span class="str">" / "</span> <span class="op">+</span> thumbnails.<span class="prop">length</span>;
+}</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 4: BOOKING & PRICE -->
+      <section id="sec-booking" class="doc-section">
+        <h2 class="section-title">
+          💳 4. ระบบจองทริป คำนวณราคาสุทธิ และบันทึกการจอง
+        </h2>
+        <p class="section-desc">
+          ระบบสั่งจองแพ็กเกจทริปท่องเที่ยวแบบ Interactive
+          รองรับการคำนวณราคาสุทธิแบบเปลี่ยนตามจำนวนคน
+        </p>
+
+        <!-- FUNC 4 -->
+        <div class="func-box">
+          <div class="func-header">
+            <span class="func-name">calculateHomeTotalPrice()</span>
+            <span class="func-file-tag">JavaS-1.js (Line 120-136)</span>
+          </div>
+          <p class="func-purpose">
+            <strong>วัตถุประสงค์:</strong> คำนวณยอดเงินรวม (ราคาต่อคน × จำนวนคน)
+            แล้วฟอร์แมตให้อยู่ในรูปแบบสกุลเงินไทยบาท (เช่น ฿4,500)
+          </p>
+
+          <div class="code-wrapper">
+            <div class="code-header"><span>JavaScript Source Code</span></div>
+            <pre><code><span class="kw">function</span> <span class="fn">calculateHomeTotalPrice</span>() {
+  <span class="kw">const</span> countEl <span class="op">=</span> document.<span class="fn">getElementById</span>(<span class="str">"homeTravelerCount"</span>);
+  <span class="kw">const</span> count <span class="op">=</span> countEl <span class="op">?</span> parseInt(countEl.<span class="prop">value</span>) <span class="op">||</span> <span class="num">1</span> <span class="op">:</span> <span class="num">1</span>;
+  <span class="kw">const</span> total <span class="op">=</span> currentHomeUnitPrice <span class="op">*</span> count;
+
+  <span class="kw">const</span> totalEl <span class="op">=</span> document.<span class="fn">getElementById</span>(<span class="str">"homeTotalPriceDisplay"</span>);
+  <span class="kw">if</span> (totalEl) {
+    totalEl.<span class="prop">textContent</span> <span class="op">=</span> <span class="str">"฿"</span> <span class="op">+</span> total.<span class="fn">toLocaleString</span>();
+  }
+  <span class="kw">return</span> total;
+}</code></pre>
+          </div>
+
+          <h4 style="color: var(--accent-blue); margin-bottom: 10px">
+            🔬 เทคนิคสำคัญที่ใช้:
+          </h4>
+          <p style="font-size: 14px; color: var(--text-body)">
+            1.
+            <span class="concept-tag">parseInt()</span> แปลงข้อความจากตัวเลือก
+            <code style="color: var(--accent-purple)">&lt;select&gt;</code>
+            ให้เป็นตัวเลขสำหรับคำนวณทางคณิตศาสตร์<br />
+            2.
+            <span class="concept-tag">toLocaleString()</span>
+            แปลงตัวเลขโดดให้มีเครื่องหมายจุลภาคคั่นหลักพัน เช่น
+            <code style="color: var(--accent-emerald)"
+              >2500.toLocaleString()</code
+            >
+            ➔ <code style="color: var(--accent-emerald)">"2,500"</code>
+          </p>
+        </div>
+      </section>
+
+      <!-- SECTION 5: GOOGLE MAPS & GEOLOCATION -->
+      <section id="sec-maps" class="doc-section">
+        <h2 class="section-title">
+          🗺️ 5. ระบบแผนที่และการนำทางแบบเรียลไทม์ (Geolocation API)
+        </h2>
+        <p class="section-desc">
+          ดึงตำแหน่งพิกัด GPS ปัจจุบันของผู้ใช้ผ่านเบราว์เซอร์
+          แล้วสร้างลิงก์คำนวณเส้นทางไปยังสถานที่ท่องเที่ยวนั้นๆ ผ่าน Google Maps
+          Embed
+        </p>
+
+        <!-- FUNC 5 -->
+        <div class="func-box">
+          <div class="func-header">
+            <span class="func-name">function loadLiveRoute(...)</span>
+            <span class="func-file-tag">หน้าย่อย เช่น เขาใหญ่-1.html</span>
+          </div>
+          <p class="func-purpose">
+            <strong>วัตถุประสงค์:</strong> เรียกใช้ Web API
+            <code style="color: var(--accent-blue)">navigator.geolocation</code>
+            เพื่อนำพิกัดละติจูด/ลองจิจูดของผู้ใช้ไปปักจุดเริ่มต้นการเดินทาง
+          </p>
+
+          <div class="code-wrapper">
+            <div class="code-header">
+              <span>JavaScript Geolocation API</span>
+            </div>
+            <pre><code><span class="kw">function</span> <span class="fn">loadLiveRoute</span>(destinationQuery, iframeId, statusMsgId) {
+  <span class="kw">const</span> iframe <span class="op">=</span> document.<span class="fn">getElementById</span>(iframeId);
+  <span class="kw">const</span> statusMsg <span class="op">=</span> document.<span class="fn">getElementById</span>(statusMsgId);
+
+  <span class="kw">if</span> (<span class="str">"geolocation"</span> <span class="kw">in</span> navigator) {
+    statusMsg.<span class="prop">textContent</span> <span class="op">=</span> <span class="str">"⏳ กำลังค้นหาตำแหน่งปัจจุบันของคุณ..."</span>;
+    navigator.<span class="prop">geolocation</span>.<span class="fn">getCurrentPosition</span>(
+      <span class="kw">function</span>(pos) {
+        <span class="kw">const</span> lat <span class="op">=</span> pos.<span class="prop">coords</span>.<span class="prop">latitude</span>;
+        <span class="kw">const</span> lng <span class="op">=</span> pos.<span class="prop">coords</span>.<span class="prop">longitude</span>;
+        <span class="kw">if</span> (iframe) {
+          iframe.<span class="prop">src</span> <span class="op">=</span> <span class="str">"https://maps.google.com/maps?saddr="</span> <span class="op">+</span> lat <span class="op">+</span> <span class="str">","</span> <span class="op">+</span> lng <span class="op">+</span> <span class="str">"&daddr="</span> <span class="op">+</span> <span class="fn">encodeURIComponent</span>(destinationQuery) <span class="op">+</span> <span class="str">"&output=embed"</span>;
+        }
+        statusMsg.<span class="prop">textContent</span> <span class="op">=</span> <span class="str">"✅ แสดงเส้นทางจากตำแหน่งของคุณสำเร็จ!"</span>;
+      },
+      <span class="kw">function</span>(err) {
+        <span class="cmt">// หากผู้ใช้ไม่อนุญาต ให้ใช้ตำแหน่งคร่าวๆ</span>
+        iframe.<span class="prop">src</span> <span class="op">=</span> <span class="str">"https://maps.google.com/maps?saddr=My+Location&daddr="</span> <span class="op">+</span> <span class="fn">encodeURIComponent</span>(destinationQuery) <span class="op">+</span> <span class="str">"&output=embed"</span>;
+      }
+    );
+  }
+}</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 6: LOCALSTORAGE HISTORY -->
+      <section id="sec-storage" class="doc-section">
+        <h2 class="section-title">
+          📜 6. ระบบบันทึกประวัติการจองลงเบราว์เซอร์ (LocalStorage API)
+        </h2>
+        <p class="section-desc">
+          การจัดเก็บข้อมูลการจองไว้ในหน่วยความจำเครื่องของผู้ใช้ (Local
+          Persistence) ให้คงอยู่แม้ปิด/เปิดเบราว์เซอร์ใหม่
+        </p>
+
+        <!-- FUNC 6 -->
+        <div class="func-box">
+          <div class="func-header">
+            <span class="func-name">openBookingHistoryModal()</span>
+            <span class="func-file-tag">JavaS-1.js (Line 230-280)</span>
+          </div>
+          <p class="func-purpose">
+            <strong>วัตถุประสงค์:</strong> อ่านข้อมูล JSON
+            อาร์เรย์ที่บันทึกไว้ใน
+            <code style="color: var(--accent-purple)"
+              >localStorage.getItem("myBookings")</code
+            >
+            แล้วสร้างการ์ดรายการประวัติการจองแบบไดนามิก
+          </p>
+
+          <div class="code-wrapper">
+            <div class="code-header">
+              <span>JavaScript LocalStorage Operations</span>
+            </div>
+            <pre><code><span class="kw">function</span> <span class="fn">saveBookingToStorage</span>(bookingObj) {
+  <span class="kw">let</span> history <span class="op">=</span> JSON.<span class="fn">parse</span>(localStorage.<span class="fn">getItem</span>(<span class="str">"travel_bookings"</span>) <span class="op">||</span> <span class="str">"[]"</span>);
+  history.<span class="fn">unshift</span>(bookingObj); <span class="cmt">// ใส่ข้อมูลใหม่ไว้ด้านหน้าสุด</span>
+  localStorage.<span class="fn">setItem</span>(<span class="str">"travel_bookings"</span>, JSON.<span class="fn">stringify</span>(history));
+}</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- FOOTER -->
+      <footer>
+        <p>เอกสารประกอบการเรียนรู้และพัฒนาโปรเจกต์ TravelWeb2500 &copy; 2026</p>
+      </footer>
+    </div>
+
+    <script>
+      function scrollToSection(id) {
+        const el = document.getElementById(id);
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth" });
+          document
+            .querySelectorAll(".tab-btn")
+            .forEach((btn) => btn.classList.remove("active"));
+          if (event && event.target) {
+            event.target.classList.add("active");
+          }
+        }
+      }
+    </script>
+  </body>
+</html>
